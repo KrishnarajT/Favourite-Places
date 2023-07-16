@@ -1,6 +1,12 @@
 // import react stuff
 
-import { StyleSheet, Text, View, useColorScheme } from "react-native";
+import {
+	StyleSheet,
+	Text,
+	View,
+	useColorScheme,
+	Pressable,
+} from "react-native";
 import React, { useEffect, useState, createContext } from "react";
 import {
 	NavigationContainer,
@@ -28,6 +34,9 @@ import { Ionicons } from "@expo/vector-icons";
 // import contexts
 import { ThemeContext } from "./context/ThemeContext";
 import { getDarkMode, toggleDarkMode } from "./utilities/Http";
+import AllPlaces from "./components/screens/AllPlaces";
+import AddPlace from "./components/screens/AddPlace";
+import IconButton from "./components/ui/IconButton";
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
@@ -96,29 +105,59 @@ export default function App() {
 	const Stack = createBottomTabNavigator();
 	return (
 		<ThemeContext.Provider value={themedata}>
-			<NavigationContainer
-				theme={themedata.AppTheme}
-				screenOptions={{
-					headerStyle: {
-						backgroundColor: "#ff3",
-					},
-					contentStyle: {
-						backgroundColor: "#000",
-					},
-				}}
-			>
+			<NavigationContainer theme={themedata.AppTheme}>
 				<StatusBar style={themedata.AppTheme.dark ? "light" : "dark"} />
-				<Stack.Navigator>
+				<Stack.Navigator
+					screenOptions={{
+						headerStyle: {
+							backgroundColor: themedata.AppTheme.colors.card,
+						},
+						headerTintColor: themedata.AppTheme.colors.text,
+						contentStyle: {
+							backgroundColor:
+								themedata.AppTheme.colors.background,
+						},
+					}}
+				>
 					<Stack.Screen
-						name="Screen1"
-						component={Screen1}
-						options={{
+						name="Places"
+						component={AllPlaces}
+						options={({ navigation }) => ({
+							headerRight: () => (
+								<IconButton
+									iconName="ios-add"
+									size={30}
+									color={themedata.AppTheme.colors.primary}
+									style={{ marginRight: 10 }}
+									onPress={() =>
+										navigation.navigate("AddPlace")
+									}
+								/>
+							),
 							// these are dependent on the kind of navigation you are using. check doc.
-							title: "Scereern 1",
+							title: "All Places",
 							tabBarIcon: ({ color, size }) => {
 								return (
 									<Ionicons
-										name="ios-home"
+										name="map"
+										size={size}
+										color={color}
+									/>
+								);
+							},
+						})}
+					/>
+
+					<Stack.Screen
+						name="AddPlace"
+						component={AddPlace}
+						options={{
+							// these are dependent on the kind of navigation you are using. check doc.
+							title: "Add Place",
+							tabBarIcon: ({ color, size }) => {
+								return (
+									<Ionicons
+										name="navigate"
 										size={size}
 										color={color}
 									/>
@@ -126,16 +165,17 @@ export default function App() {
 							},
 						}}
 					/>
+
 					<Stack.Screen
 						name="Settings"
 						component={Settings}
 						options={{
 							// these are dependent on the kind of navigation you are using. check doc.
-							title: "settttings 1",
+							title: "Settings",
 							tabBarIcon: ({ color, size }) => {
 								return (
 									<Ionicons
-										name="ios-settings"
+										name="settings"
 										size={size}
 										color={color}
 									/>

@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, Switch } from "react-native";
 import { useTheme } from "@react-navigation/native";
 import { useState, useContext } from "react";
 import { ThemeContext } from "../../context/ThemeContext";
+import CText from "../ui/CText";
 
 const Settings = () => {
 	const { AppTheme, toggleTheme } = useContext(ThemeContext);
@@ -19,14 +20,14 @@ const Settings = () => {
 				borderColor: AppTheme.colors.border,
 			}}
 		>
-			<Text
-				className="text-lg"
+			<CText
+				className="text-xl"
 				style={{
 					color: AppTheme.colors.text,
 				}}
 			>
 				Change Theme
-			</Text>
+			</CText>
 			<Switch
 				trackColor={{ false: "#767577", true: "#81b0ff" }}
 				thumbColor={AppTheme.dark ? "#f5dd4b" : "#f4f3f4"}

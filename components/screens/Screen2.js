@@ -25,14 +25,14 @@ const Screen2 = (props) => {
 	}, [navigation]);
 	return (
 		<View>
-			<Text
+			<CText
 				style={{
 					fontFamily: "open-sans-bold",
 					color: colors.text,
 				}}
 			>
 				Screen 2 - {scheme}
-			</Text>
+			</CText>
 			<Button
 				title="Go to Screen 1"
 				onPress={() =>
@@ -41,7 +41,7 @@ const Screen2 = (props) => {
 					})
 				}
 			/>
-			<Text>{data}</Text>
+			<CText>{data}</CText>
 		</View>
 	);
 };

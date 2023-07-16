@@ -1,7 +1,8 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
+import CText from "../ui/CText";
 
-const AddPlace = () => {
+const Map = () => {
     return (
         <View>
             
@@ -11,4 +12,4 @@ const AddPlace = () => {
 
 const styles = StyleSheet.create({})
 
-export default AddPlace;
+export default Map;

@@ -1,28 +1,28 @@
 import React from "react";
 import { View, StyleSheet, Text, Button } from "react-native";
-import { useColorScheme } from "react-native";
-import MyDarkTheme from "../../utilities/DarkTheme";
 import { useTheme, useNavigation, useRoute } from "@react-navigation/native";
 
 const Screen1 = (props) => {
-    const route = useRoute();
-    const data = route.params !== undefined ? route.params.some_data : "no data";
+	const route = useRoute();
+	const data =
+		route.params !== undefined ? route.params.some_data : "no data";
 	const navigation = useNavigation();
 	const scheme = useTheme().dark ? "dark" : "light";
 	const colors = useTheme().colors;
 
 	return (
 		<View>
-			<Text
+			<CText
 				style={{
 					fontFamily: "quicksand",
 					color: colors.text,
-					fontSize: 35,
+					// fontSize: 35,
 					// fontWeight: "100",
 				}}
+				className="text-4xl"
 			>
 				Screen 1 - {scheme}
-			</Text>
+			</CText>
 			<Button
 				title="Go to Screen 2"
 				onPress={() =>
@@ -31,11 +31,9 @@ const Screen1 = (props) => {
 					})
 				}
 			/>
-			<Text>{data}</Text>
+			<CText>{data}</CText>
 		</View>
 	);
 };
-
-const styles = StyleSheet.create({});
 
 export default Screen1;
