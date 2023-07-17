@@ -117,6 +117,10 @@ export default function App() {
 							backgroundColor:
 								themedata.AppTheme.colors.background,
 						},
+						headerTitleStyle: {
+							fontFamily: "quicksand",
+						},
+						headerTitleAlign: "center",
 					}}
 				>
 					<Stack.Screen
@@ -145,6 +149,7 @@ export default function App() {
 									/>
 								);
 							},
+							headerTitle: "Your Favourite Places",
 						})}
 					/>
 
@@ -163,6 +168,7 @@ export default function App() {
 									/>
 								);
 							},
+							headerTitle: "Add a New Place",
 						}}
 					/>
 
