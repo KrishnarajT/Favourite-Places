@@ -25,6 +25,7 @@ import * as SplashScreen from "expo-splash-screen";
 import Screen1 from "./components/screens/Screen1";
 import Screen2 from "./components/screens/Screen2";
 import Settings from "./components/screens/Settings.js";
+import Map from "./components/screens/Map";
 
 // import utilities
 import MyLightTheme from "./utilities/LightTheme";
@@ -182,6 +183,23 @@ export default function App() {
 								return (
 									<Ionicons
 										name="settings"
+										size={size}
+										color={color}
+									/>
+								);
+							},
+						}}
+					/>
+					<Stack.Screen
+						name="Map"
+						component={Map}
+						options={{
+							// these are dependent on the kind of navigation you are using. check doc.
+							title: "Map",
+							tabBarIcon: ({ color, size }) => {
+								return (
+									<Ionicons
+										name="map"
 										size={size}
 										color={color}
 									/>

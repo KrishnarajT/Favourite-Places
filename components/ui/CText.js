@@ -8,7 +8,6 @@ const CText = (props) => {
 		fontFamily: "quicksand",
 		color: themeData.AppTheme.colors.text,
 	};
-
 	return <Text style={[styles, props.style]}>{props.children}</Text>;
 };
 

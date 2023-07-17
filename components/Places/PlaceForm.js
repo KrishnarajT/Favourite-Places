@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, ScrollView, TextInput } from "react-native";
 import CText from "../ui/CText";
 import { ThemeContext } from "../../context/ThemeContext";
 import ImagePicker from "./ImagePicker";
+import LocationPicker from "./LocationPicker";
 
 const PlaceForm = () => {
 	const [enteredTitle, setEnteredTitle] = useState("");
@@ -18,7 +19,7 @@ const PlaceForm = () => {
 				<TextInput
 					value={enteredTitle}
 					onChangeText={changeTitleHandler}
-					className="border-2 p-1 mx-4 my-2 mb-4"
+					className="border-2 mx-4 mb-4 p-1 rounded-lg"
 					style={{
 						borderColor: themeData.AppTheme.colors.secondary,
 					}}
@@ -26,6 +27,7 @@ const PlaceForm = () => {
 				/>
 			</View>
 			<ImagePicker />
+			<LocationPicker />
 		</ScrollView>
 	);
 };
