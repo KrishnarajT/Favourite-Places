@@ -5,6 +5,7 @@ import CText from "../ui/CText";
 
 const PlacesList = ({ places }) => {
 	if (places.length === 0) {
+		console.log("No places found")
 		return (
 			<View>
 				<CText className="text-xl text-center p-4">
@@ -13,7 +14,7 @@ const PlacesList = ({ places }) => {
 			</View>
 		);
 	}
-
+	console.log("----------------------------------------PlacesList", places)
 	return (
 		<FlatList
 			data={places}

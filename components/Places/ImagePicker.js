@@ -6,13 +6,13 @@ import { useCameraPermissions } from "expo-image-picker";
 import PrimaryButton from "../ui/PrimaryButton";
 import { ThemeContext } from "../../context/ThemeContext";
 
-const ImagePicker = () => {
+const ImagePicker = ({ onImageTaken }) => {
 	const [cameraPermissionInformation, requestPermission] =
 		useCameraPermissions();
 	const themeData = useContext(ThemeContext);
 
 	const [pickedImage, setPickedImage] = useState();
-	
+
 	const veryfyPermissions = async () => {
 		let result;
 		if (cameraPermissionInformation.status !== "granted") {
@@ -44,6 +44,7 @@ const ImagePicker = () => {
 		});
 		console.log(image);
 		setPickedImage(image.uri);
+		onImageTaken(image.uri);
 	};
 
 	let imagePreview = (

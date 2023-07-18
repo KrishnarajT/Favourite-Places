@@ -6,19 +6,22 @@ import { ThemeContext } from "../../context/ThemeContext";
 import {
 	getCurrentPositionAsync,
 	useForegroundPermissions,
-	PermissionStatus,
 } from "expo-location";
-import { getMapPreview } from "../../utilities/Location";
-import { useRoute, useIsFocused } from "@react-navigation/native";
+import { getAddressFromCoords, getMapPreview } from "../../utilities/Location";
+import {
+	useRoute,
+	useIsFocused,
+	useNavigation,
+} from "@react-navigation/native";
 
-const LocationPicker = () => {
+const LocationPicker = ({ onLocationPicked }) => {
 	const themeData = useContext(ThemeContext);
+	const navigation = useNavigation();
 	const [locationPermissionInformation, requestPermission] =
 		useForegroundPermissions();
 	const [pickedLocation, setPickedLocation] = useState();
 	const route = useRoute();
 	const isFocused = useIsFocused();
-	console.log(route.params);
 
 	useEffect(() => {
 		if (isFocused && route.params) {
@@ -31,6 +34,22 @@ const LocationPicker = () => {
 			});
 		}
 	}, [route, isFocused]);
+
+	useEffect(() => {
+		async function handleLocationPicked() {
+			console.log("LocationPicker useEffect", pickedLocation);
+			if (pickedLocation) {
+                const address = await getAddressFromCoords(pickedLocation);
+                console.log("tf are tyou doing?", address)
+				onLocationPicked({
+					lat: pickedLocation.lat,
+					lon: pickedLocation.lon,
+					address: address,
+				});
+			}
+		}
+		handleLocationPicked();
+	}, [pickedLocation, onLocationPicked]);
 
 	const veryfyPermissions = async () => {
 		let result;
@@ -66,7 +85,9 @@ const LocationPicker = () => {
 		});
 	};
 
-	const pickOnMapHandler = async () => {};
+	const pickOnMapHandler = async () => {
+		navigation.navigate("Map");
+	};
 
 	let locationPreview = (
 		<CText className="self-center text-center text-lg">
