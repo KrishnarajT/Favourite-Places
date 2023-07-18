@@ -174,23 +174,6 @@ export default function App() {
 					/>
 
 					<Stack.Screen
-						name="Settings"
-						component={Settings}
-						options={{
-							// these are dependent on the kind of navigation you are using. check doc.
-							title: "Settings",
-							tabBarIcon: ({ color, size }) => {
-								return (
-									<Ionicons
-										name="settings"
-										size={size}
-										color={color}
-									/>
-								);
-							},
-						}}
-					/>
-					<Stack.Screen
 						name="Map"
 						component={Map}
 						options={{
@@ -200,6 +183,23 @@ export default function App() {
 								return (
 									<Ionicons
 										name="map"
+										size={size}
+										color={color}
+									/>
+								);
+							},
+						}}
+					/>
+					<Stack.Screen
+						name="Settings"
+						component={Settings}
+						options={{
+							// these are dependent on the kind of navigation you are using. check doc.
+							title: "Settings",
+							tabBarIcon: ({ color, size }) => {
+								return (
+									<Ionicons
+										name="settings"
 										size={size}
 										color={color}
 									/>

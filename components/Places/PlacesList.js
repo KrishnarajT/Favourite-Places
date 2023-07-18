@@ -19,6 +19,7 @@ const PlacesList = ({ places }) => {
 		<FlatList
 			data={places}
 			keyExtractor={(item) => item.id}
+			style={{ width: "100%", flex: 1 }}
 			renderItem={(itemData) => <PlaceItem place={itemData} />}
 		/>
 	);

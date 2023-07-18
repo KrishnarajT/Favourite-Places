@@ -25,7 +25,7 @@ const AllPlaces = () => {
 			]);
 		}
 	}, [route, isFocused]);
-	return <PlacesList places={loadedPlaces} />;
+	return <PlacesList places={loadedPlaces}/>;
 };
 
 export default AllPlaces;

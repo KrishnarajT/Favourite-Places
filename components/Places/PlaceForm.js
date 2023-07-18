@@ -49,9 +49,11 @@ const PlaceForm = ({ onCreatePlace }) => {
 					className="border-2 mx-4 mb-4 p-1 rounded-lg"
 					style={{
 						borderColor: themeData.AppTheme.colors.secondary,
+						color: themeData.AppTheme.colors.text,
 					}}
 					cursorColor={themeData.AppTheme.colors.primary}
 					selectionColor={themeData.AppTheme.colors.text}
+					
 				/>
 			</View>
 			<ImagePicker onImageTaken={imageTakenHandler} />
