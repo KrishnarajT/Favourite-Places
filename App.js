@@ -31,6 +31,7 @@ import Map from "./components/screens/Map";
 import MyLightTheme from "./utilities/LightTheme";
 import MyDarkTheme from "./utilities/DarkTheme";
 import { Ionicons } from "@expo/vector-icons";
+import * as db from "./utilities/database";
 
 // import contexts
 import { ThemeContext } from "./context/ThemeContext";
@@ -60,6 +61,15 @@ export default function App() {
 					quicksand: require("./assets/fonts/Quicksand-Regular.ttf"),
 					prozalibre: require("./assets/fonts/ProzaLibre-Regular.ttf"),
 				});
+				// db stuff
+				db.init()
+					.then(() => {
+						console.log("Initialized Database");
+					})
+					.catch((err) => {
+						console.log("Initializing db failed");
+						console.log(err);
+					});
 
 				// Theme stuff
 
@@ -200,6 +210,23 @@ export default function App() {
 								return (
 									<Ionicons
 										name="settings"
+										size={size}
+										color={color}
+									/>
+								);
+							},
+						}}
+					/>
+					<Stack.Screen
+						name="PlaceDetails"
+						component={Settings}
+						options={{
+							// these are dependent on the kind of navigation you are using. check doc.
+							title: "Loading Details",
+							tabBarIcon: ({ color, size }) => {
+								return (
+									<Ionicons
+										name="map"
 										size={size}
 										color={color}
 									/>

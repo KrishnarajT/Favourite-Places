@@ -1,20 +1,57 @@
-import React, { useCallback, useLayoutEffect, useState } from "react";
+import React, {
+	useCallback,
+	useEffect,
+	useLayoutEffect,
+	useState,
+} from "react";
 import { View, StyleSheet, Alert } from "react-native";
 import CText from "../ui/CText";
 import MapView from "react-native-maps";
 import { Marker } from "react-native-maps";
 import PrimaryButton from "../ui/PrimaryButton";
+import {
+	getCurrentPositionAsync,
+	useForegroundPermissions,
+} from "expo-location";
 
 const Map = (props) => {
-	const [selectedLocation, setSelectedLocation] = useState();
+	const initialLocation = props.route.params
+		? props.route.params.initialLocation
+		: null;
+	const [selectedLocation, setSelectedLocation] = useState(initialLocation);
+
+	useEffect(() => {
+		async function getLocation() {
+			const location = await getCurrentPositionAsync({
+				accuracy: 6,
+			});
+			console.log(location);
+			setSelectedLocation({
+				lat: location.coords.latitude,
+				lon: location.coords.longitude,
+			});
+		}
+		if (initialLocation) {
+			setSelectedLocation({
+				lat: initialLocation.lat,
+				lon: initialLocation.lon,
+			});
+		} else {
+			getLocation();
+		}
+	}, [initialLocation]);
 
 	const region = {
-		latitude: 37.78,
-		longitude: -122.43,
+		latitude: initialLocation ? initialLocation.lat : 37.78,
+		longitude: initialLocation ? initialLocation.lon : -122.43,
 		latitudeDelta: 0.0922,
 		longitudeDelta: 0.0421,
 	};
+
 	const selectLocationHandler = (event) => {
+		if (initialLocation) {
+			return;
+		}
 		// console.log(event);
 		const lat = event.nativeEvent.coordinate.latitude;
 		const lon = event.nativeEvent.coordinate.longitude;
@@ -41,6 +78,7 @@ const Map = (props) => {
 	}, [selectedLocation]);
 
 	useLayoutEffect(() => {
+		if (initialLocation) return;
 		props.navigation.setOptions({
 			headerRight: () => (
 				<PrimaryButton
@@ -51,7 +89,7 @@ const Map = (props) => {
 				</PrimaryButton>
 			),
 		});
-	}, [props.navigation, selectedLocation]);
+	}, [props.navigation, selectedLocation, initialLocation]);
 
 	return (
 		<MapView
