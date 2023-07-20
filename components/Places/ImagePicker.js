@@ -1,17 +1,22 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { View, Image } from "react-native";
 import { launchCameraAsync } from "expo-image-picker";
 import CText from "../ui/CText";
 import { useCameraPermissions } from "expo-image-picker";
 import PrimaryButton from "../ui/PrimaryButton";
 import { ThemeContext } from "../../context/ThemeContext";
+import { useIsFocused } from "@react-navigation/native";
 
 const ImagePicker = ({ onImageTaken }) => {
 	const [cameraPermissionInformation, requestPermission] =
 		useCameraPermissions();
 	const themeData = useContext(ThemeContext);
-
+	const focused = useIsFocused();
 	const [pickedImage, setPickedImage] = useState();
+	useEffect(() => {
+		console.log("ImagePicker useEffect");
+		setPickedImage(null);
+	}, [focused]);
 
 	const veryfyPermissions = async () => {
 		let result;

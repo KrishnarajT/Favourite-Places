@@ -1,30 +1,36 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, ScrollView, Image } from "react-native";
 import CText from "../ui/CText";
 import PrimaryButton from "../ui/PrimaryButton";
 import { fetchPlaceDetails } from "../../utilities/database";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 
 const PlaceDetails = (props) => {
 	const placeId = props.route.params.placeId;
-	const [selectedPlace, setSelectedPlace] = useState({});
+	console.log("you are now in place detail realm", placeId);
+	const focused = useIsFocused();
+	const navigation = useNavigation();
+	const [selectedPlace, setSelectedPlace] = useState(null);
 
+	props.navigation.setOptions({
+		title: "Loading Details",
+	});
 	useEffect(() => {
-		props.navigation.setOptions({
-			title: props.route.params.placeTitle,
-		});
 		const loadPlaceDetails = async () => {
-			selectedPlace = await fetchPlaceDetails(placeId);
-			console.log("PlaceDetails", selectedPlace);
-			setSelectedPlace(selectedPlace);
+			fetchPlaceDetails(placeId)
+				.then((place) => {
+					setSelectedPlace(place);
+					props.navigation.setOptions({
+						title: place.title,
+					});
+					console.log("place details", place);
+				})
+				.catch((err) => {
+					console.log("error in fetching place details", err);
+				});
 		};
 		loadPlaceDetails();
-		console.log("PlaceDetails", selectedPlace);
-	}, [
-		props.navigation,
-		props.route.params.placeTitle,
-		placeId,
-		selectedPlace,
-	]);
+	}, [placeId, focused]);
 
 	function showMapHandler() {
 		console.log("showMapHandler");
@@ -43,15 +49,26 @@ const PlaceDetails = (props) => {
 	}
 
 	return (
-		<ScrollView>
-			<Image source={{ uri: selectedPlace.imageURI }} />
+		<View className="flex-1 items-center w-full">
 			<View>
-				<CText>{selectedPlace.location.address}</CText>
+				<CText className="text-2xl p-4">Image</CText>
+			</View>
+			<Image
+				source={{ uri: selectedPlace.imageURI }}
+				className="rounded-lg h-40 w-11/12 mb-3"
+			/>
+			<View>
+				<CText className="text-2xl p-4">Address</CText>
+			</View>
+			<View>
+				<CText className="text-xl pb-4 text-center">
+					{selectedPlace.location.address}
+				</CText>
 			</View>
 			<PrimaryButton title="Show on Map" onPress={showMapHandler}>
 				Show on Map
 			</PrimaryButton>
-		</ScrollView>
+		</View>
 	);
 };
 

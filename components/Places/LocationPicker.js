@@ -39,8 +39,8 @@ const LocationPicker = ({ onLocationPicked }) => {
 		async function handleLocationPicked() {
 			console.log("LocationPicker useEffect", pickedLocation);
 			if (pickedLocation) {
-                const address = await getAddressFromCoords(pickedLocation);
-                console.log("tf are tyou doing?", address)
+				const address = await getAddressFromCoords(pickedLocation);
+				console.log("heres the address. ", address);
 				onLocationPicked({
 					lat: pickedLocation.lat,
 					lon: pickedLocation.lon,
@@ -78,7 +78,10 @@ const LocationPicker = ({ onLocationPicked }) => {
 		const location = await getCurrentPositionAsync({
 			accuracy: 6,
 		});
-		console.log(location);
+		console.log(
+			"you have pressed a button that says you want to auto get the current location",
+			location
+		);
 		setPickedLocation({
 			lat: location.coords.latitude,
 			lon: location.coords.longitude,

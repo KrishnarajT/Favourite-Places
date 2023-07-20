@@ -28,10 +28,10 @@ export const insertPlace = (place) => {
 				`INSERT INTO places (title, imageUri, address, lat, lon) VALUES (?, ?, ?, ?, ?);`,
 				[
 					place.title,
-					place.imageUri,
-					place.address,
-					place.lat,
-					place.lon,
+					place.imageURI,
+					place.location.address,
+					place.location.lat,
+					place.location.lon,
 				],
 				(_, result) => {
 					resolve(result);
@@ -67,6 +67,7 @@ export const fetchPlaces = () => {
 							)
 						);
 					}
+					console.log("here are the places bro", places);
 					resolve(places);
 				},
 				(_, err) => {
@@ -79,6 +80,7 @@ export const fetchPlaces = () => {
 };
 
 export const fetchPlaceDetails = (id) => {
+	console.log("fetchPlaceDetails", id);
 	const promise = new Promise((resolve, reject) => {
 		db.transaction((tx) => {
 			tx.executeSql(
@@ -98,6 +100,7 @@ export const fetchPlaceDetails = (id) => {
 						},
 						result.rows.item(0).id
 					);
+					console.log("this is what i got", dbPlace);
 					resolve(dbPlace);
 				},
 				(_, err) => {

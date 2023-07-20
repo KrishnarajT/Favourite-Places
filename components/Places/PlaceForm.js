@@ -1,4 +1,4 @@
-import React, { useState, useContext, useCallback } from "react";
+import React, { useState, useContext, useCallback, useEffect } from "react";
 import { View, StyleSheet, Text, ScrollView, TextInput } from "react-native";
 import CText from "../ui/CText";
 import { ThemeContext } from "../../context/ThemeContext";
@@ -12,6 +12,7 @@ const PlaceForm = ({ onCreatePlace }) => {
 	const [enteredTitle, setEnteredTitle] = useState("");
 	const [pickedLocation, setPickedLocation] = useState(null);
 	const [pickedImage, setPickedImage] = useState("");
+	const [fresh, setFresh] = useState(true);
 
 	const changeTitleHandler = (text) => {
 		setEnteredTitle(text);
@@ -31,6 +32,10 @@ const PlaceForm = ({ onCreatePlace }) => {
 		}
 		const place = new Place(enteredTitle, pickedImage, pickedLocation);
 		onCreatePlace(place);
+		setEnteredTitle("");
+		setPickedImage("");
+		setPickedLocation(null);
+		setFresh(false);
 	}
 	function imageTakenHandler(imagePath) {
 		setPickedImage(imagePath);
@@ -56,7 +61,7 @@ const PlaceForm = ({ onCreatePlace }) => {
 					
 				/>
 			</View>
-			<ImagePicker onImageTaken={imageTakenHandler} />
+			<ImagePicker onImageTaken={imageTakenHandler} fresh={fresh} />
 			<LocationPicker onLocationPicked={locationPickedHandler} />
 			<View className="p-4">
 				<PrimaryButton

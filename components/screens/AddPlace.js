@@ -10,7 +10,9 @@ const AddPlace = () => {
 		console.log("createPlaceHandler");
 		console.log("this is the place", place);
 		insertPlace(place);
-		navigation.navigate("Places");
+		navigation.navigate("Places", {
+			screen: "AllPlaces",
+		});
 	}
 
 	return <PlaceForm onCreatePlace={createPlaceHandler} />;

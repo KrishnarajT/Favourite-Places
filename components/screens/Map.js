@@ -13,14 +13,20 @@ import {
 	getCurrentPositionAsync,
 	useForegroundPermissions,
 } from "expo-location";
+import { useIsFocused } from "@react-navigation/native";
 
 const Map = (props) => {
+	const isfocused = useIsFocused();
+	console.log(props.navigation, isfocused);
 	const initialLocation = props.route.params
 		? props.route.params.initialLocation
 		: null;
-	const [selectedLocation, setSelectedLocation] = useState(initialLocation);
+	const [selectedLocation, setSelectedLocation] = useState(
+		initialLocation ? initialLocation : null
+	);
 
-	useEffect(() => {
+	useLayoutEffect(() => {
+		console.log("Map useLayoutEffect");
 		async function getLocation() {
 			const location = await getCurrentPositionAsync({
 				accuracy: 6,
@@ -31,19 +37,51 @@ const Map = (props) => {
 				lon: location.coords.longitude,
 			});
 		}
-		if (initialLocation) {
-			setSelectedLocation({
-				lat: initialLocation.lat,
-				lon: initialLocation.lon,
-			});
-		} else {
-			getLocation();
-		}
-	}, [initialLocation]);
+		console.log("getting location");
+		getLocation();
+	}, [isfocused]);
 
+	useLayoutEffect(() => {
+		if (initialLocation) return;
+		console.log(initialLocation);
+		props.navigation.setOptions({
+			headerRight: () => (
+				<PrimaryButton
+					iconName="checkmark"
+					onPress={savePickLocationHandler}
+				>
+					Save
+				</PrimaryButton>
+			),
+		});
+	}, [props.navigation, selectedLocation, initialLocation]);
+
+	const savePickLocationHandler = useCallback(() => {
+		console.log(selectedLocation);
+		if (!selectedLocation) {
+			Alert.alert(
+				"No Location Selected",
+				"Please select a location first",
+				[{ text: "Okay" }]
+			);
+			return;
+		}
+		props.navigation.navigate("AddPlace", {
+			pickedLocation: selectedLocation,
+		});
+	}, [selectedLocation]);
+	if (!selectedLocation) {
+		return (
+			<View>
+				<CText className="text-center text-xl">
+					No location selected yet.
+				</CText>
+			</View>
+		);
+	}
 	const region = {
-		latitude: initialLocation ? initialLocation.lat : 37.78,
-		longitude: initialLocation ? initialLocation.lon : -122.43,
+		latitude: initialLocation ? initialLocation.lat : selectedLocation.lat,
+		longitude: initialLocation ? initialLocation.lon : selectedLocation.lon,
 		latitudeDelta: 0.0922,
 		longitudeDelta: 0.0421,
 	};
@@ -61,35 +99,6 @@ const Map = (props) => {
 			lon: lon,
 		});
 	};
-
-	const savePickLocationHandler = useCallback(() => {
-		console.log(selectedLocation);
-		if (!selectedLocation) {
-			Alert.alert(
-				"No Location Selected",
-				"Please select a location first",
-				[{ text: "Okay" }]
-			);
-			return;
-		}
-		props.navigation.navigate("AddPlace", {
-			pickedLocation: selectedLocation,
-		});
-	}, [selectedLocation]);
-
-	useLayoutEffect(() => {
-		if (initialLocation) return;
-		props.navigation.setOptions({
-			headerRight: () => (
-				<PrimaryButton
-					iconName="checkmark"
-					onPress={savePickLocationHandler}
-				>
-					Save
-				</PrimaryButton>
-			),
-		});
-	}, [props.navigation, selectedLocation, initialLocation]);
 
 	return (
 		<MapView
