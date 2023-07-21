@@ -6,44 +6,43 @@ import { useTheme, useNavigation, useRoute } from "@react-navigation/native";
 import { ThemeContext } from "../../context/ThemeContext";
 
 const Screen2 = (props) => {
-	const navigation = useNavigation();
-	const { AppTheme, toggleTheme } = useContext(ThemeContext);
-	const route = useRoute();
-	const data =
-		route.params === undefined ? "no data" : route.params.some_data;
-	const scheme = AppTheme.dark ? "dark" : "light";
-	const colors = AppTheme.colors;
-	useLayoutEffect(() => {
-		navigation.setOptions({
-			headerRight: () => (
-				<Button
-					title="Go to Settings"
-					onPress={() => navigation.navigate("Settings")}
-				/>
-			),
-		});
-	}, [navigation]);
-	return (
-		<View>
-			<CText
-				style={{
-					fontFamily: "open-sans-bold",
-					color: colors.text,
-				}}
-			>
-				Screen 2 - {scheme}
-			</CText>
-			<Button
-				title="Go to Screen 1"
-				onPress={() =>
-					navigation.navigate("Screen1", {
-						some_data: "some data from screen 2",
-					})
-				}
-			/>
-			<CText>{data}</CText>
-		</View>
-	);
+  const navigation = useNavigation();
+  const { AppTheme, toggleTheme } = useContext(ThemeContext);
+  const route = useRoute();
+  const data = route.params === undefined ? "no data" : route.params.some_data;
+  const scheme = AppTheme.dark ? "dark" : "light";
+  const colors = AppTheme.colors;
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Button
+          title="Go to Settings"
+          onPress={() => navigation.navigate("Settings")}
+        />
+      ),
+    });
+  }, [navigation]);
+  return (
+    <View>
+      <CText
+        style={{
+          fontFamily: "open-sans-bold",
+          color: colors.text,
+        }}
+      >
+        Screen 2 - {scheme}
+      </CText>
+      <Button
+        title="Go to Screen 1"
+        onPress={() =>
+          navigation.navigate("Screen1", {
+            some_data: "some data from screen 2",
+          })
+        }
+      />
+      <CText>{data}</CText>
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({});

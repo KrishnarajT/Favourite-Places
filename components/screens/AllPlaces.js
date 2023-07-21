@@ -4,28 +4,28 @@ import PlacesList from "../Places/PlacesList";
 import CText from "../ui/CText";
 import { ThemeContext } from "../../context/ThemeContext";
 import {
-	useIsFocused,
-	useNavigation,
-	useRoute,
+  useIsFocused,
+  useNavigation,
+  useRoute,
 } from "@react-navigation/native";
 import { fetchPlaces } from "../../utilities/database";
 
 const AllPlaces = () => {
-	const navigation = useNavigation();
-	const themeData = useContext(ThemeContext);
-	const isFocused = useIsFocused();
-	const [loadedPlaces, setLoadedPlaces] = useState([]);
+  const navigation = useNavigation();
+  const themeData = useContext(ThemeContext);
+  const isFocused = useIsFocused();
+  const [loadedPlaces, setLoadedPlaces] = useState([]);
 
-	useEffect(() => {
-		async function loadPlaces() {
-			const places = await fetchPlaces();
-			setLoadedPlaces(places);
-		}
-		if (isFocused) {
-			loadPlaces();
-		}
-	}, [isFocused]);
-	return <PlacesList places={loadedPlaces} />;
+  useEffect(() => {
+    async function loadPlaces() {
+      const places = await fetchPlaces();
+      setLoadedPlaces(places);
+    }
+    if (isFocused) {
+      loadPlaces();
+    }
+  }, [isFocused]);
+  return <PlacesList places={loadedPlaces} />;
 };
 
 export default AllPlaces;

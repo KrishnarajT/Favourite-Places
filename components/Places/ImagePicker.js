@@ -8,83 +8,83 @@ import { ThemeContext } from "../../context/ThemeContext";
 import { useIsFocused } from "@react-navigation/native";
 
 const ImagePicker = ({ onImageTaken }) => {
-	const [cameraPermissionInformation, requestPermission] =
-		useCameraPermissions();
-	const themeData = useContext(ThemeContext);
-	const focused = useIsFocused();
-	const [pickedImage, setPickedImage] = useState();
-	useEffect(() => {
-		setPickedImage(null);
-	}, [focused]);
+  const [cameraPermissionInformation, requestPermission] =
+    useCameraPermissions();
+  const themeData = useContext(ThemeContext);
+  const focused = useIsFocused();
+  const [pickedImage, setPickedImage] = useState();
+  useEffect(() => {
+    setPickedImage(null);
+  }, [focused]);
 
-	const veryfyPermissions = async () => {
-		let result;
-		if (cameraPermissionInformation.status !== "granted") {
-			result = await requestPermission();
-		} else if (cameraPermissionInformation.status === "granted") {
-			result = cameraPermissionInformation;
-		} else if (cameraPermissionInformation.status === "undetermined") {
-			result = await requestPermission();
-		} else {
-			Alert.alert(
-				"Insufficient Permissions",
-				"You need to grant camera permissions to use this app",
-				[{ text: "Okay" }]
-			);
-			return false;
-		}
-		return true;
-	};
+  const veryfyPermissions = async () => {
+    let result;
+    if (cameraPermissionInformation.status !== "granted") {
+      result = await requestPermission();
+    } else if (cameraPermissionInformation.status === "granted") {
+      result = cameraPermissionInformation;
+    } else if (cameraPermissionInformation.status === "undetermined") {
+      result = await requestPermission();
+    } else {
+      Alert.alert(
+        "Insufficient Permissions",
+        "You need to grant camera permissions to use this app",
+        [{ text: "Okay" }],
+      );
+      return false;
+    }
+    return true;
+  };
 
-	const takeImageHandler = async () => {
-		const hasPermission = await veryfyPermissions();
-		if (!hasPermission) {
-			return;
-		}
-		const image = await launchCameraAsync({
-			allowsEditing: true,
-			aspect: [16, 9],
-			quality: 0.5,
-		});
-		setPickedImage(image.uri);
-		onImageTaken(image.uri);
-	};
+  const takeImageHandler = async () => {
+    const hasPermission = await veryfyPermissions();
+    if (!hasPermission) {
+      return;
+    }
+    const image = await launchCameraAsync({
+      allowsEditing: true,
+      aspect: [16, 9],
+      quality: 0.5,
+    });
+    setPickedImage(image.uri);
+    onImageTaken(image.uri);
+  };
 
-	let imagePreview = (
-		<CText className="self-center text-center text-lg">
-			No image picked yet!
-		</CText>
-	);
-	if (pickedImage) {
-		imagePreview = (
-			<Image
-				source={{ uri: pickedImage }}
-				style={{ width: "100%", height: "100%" }}
-			/>
-		);
-	}
+  let imagePreview = (
+    <CText className="self-center text-center text-lg">
+      No image picked yet!
+    </CText>
+  );
+  if (pickedImage) {
+    imagePreview = (
+      <Image
+        source={{ uri: pickedImage }}
+        style={{ width: "100%", height: "100%" }}
+      />
+    );
+  }
 
-	return (
-		<View className="flex-1 flex justify-center items-center text-center p-4">
-			<CText className="text-xl mb-4">Image Preview</CText>
-			<View
-				className="w-full h-52 rounded-2xl mx-4 justify-center mb-8"
-				style={{
-					backgroundColor: themeData.AppTheme.colors.primary,
-					overflow: "hidden",
-				}}
-			>
-				{imagePreview}
-			</View>
-			<PrimaryButton
-				title="Take Image"
-				onPress={takeImageHandler}
-				iconName="camera"
-			>
-				Take Image
-			</PrimaryButton>
-		</View>
-	);
+  return (
+    <View className="flex-1 flex justify-center items-center text-center p-4">
+      <CText className="text-xl mb-4">Image Preview</CText>
+      <View
+        className="w-full h-52 rounded-2xl mx-4 justify-center mb-8"
+        style={{
+          backgroundColor: themeData.AppTheme.colors.primary,
+          overflow: "hidden",
+        }}
+      >
+        {imagePreview}
+      </View>
+      <PrimaryButton
+        title="Take Image"
+        onPress={takeImageHandler}
+        iconName="camera"
+      >
+        Take Image
+      </PrimaryButton>
+    </View>
+  );
 };
 
 export default ImagePicker;
