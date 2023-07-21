@@ -58,7 +58,6 @@ export default function App() {
         // Load fonts
         await Font.loadAsync({
           quicksand: require("./assets/fonts/Quicksand-Regular.ttf"),
-          prozalibre: require("./assets/fonts/ProzaLibre-Regular.ttf"),
         });
         // db stuff
         db.init()

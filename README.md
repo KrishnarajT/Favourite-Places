@@ -4,6 +4,9 @@ App in React Native to learn the basics of using device native features, and sto
 
 # Screenshots
 
+![](./screenshots/Presentation%20Light.jpg)
+![](./screenshots/Presentation%20Dark.jpg)
+
 # Installation and Use
 
 ## Development
@@ -24,6 +27,9 @@ Just download the apk file from the releases section and install it on your phon
 6. View the details of a place
 7. Maintain the list of places even after app restarts on the device
 8. Delete a place from the list
+
+# Database
+We used Sqlite for storing the data. The database is created using the [expo-sqlite](https://docs.expo.dev/versions/latest/sdk/sqlite/) package. 
 
 # Credits
 
