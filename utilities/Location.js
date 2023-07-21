@@ -1,6 +1,4 @@
 import axios from "axios";
-
-const GOOGLE_API_KEY = "AIzaSyALaOSV9fxHBcIv_v0UFAbxdR_raFNuwCY";
 const geoapify_api_key = "f6cc8cd100194b51b4fd3be9403c3fe1";
 export function getMapPreview(props) {
 	const previewUrl = `https://maps.geoapify.com/v1/staticmap?style=osm-carto&width=800&height=800&center=lonlat:${props.lon},${props.lat}&zoom=15.5&apiKey=${geoapify_api_key}`;
