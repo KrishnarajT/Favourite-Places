@@ -23,7 +23,6 @@ const AllPlaces = () => {
 		}
 		if (isFocused) {
 			loadPlaces();
-			console.log("AllPlaces useEffect");
 		}
 	}, [isFocused]);
 	return <PlacesList places={loadedPlaces} />;

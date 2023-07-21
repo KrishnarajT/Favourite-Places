@@ -7,8 +7,6 @@ import { insertPlace } from "../../utilities/database";
 const AddPlace = () => {
 	const navigation = useNavigation();
 	function createPlaceHandler(place) {
-		console.log("createPlaceHandler");
-		console.log("this is the place", place);
 		insertPlace(place);
 		navigation.navigate("Places", {
 			screen: "AllPlaces",

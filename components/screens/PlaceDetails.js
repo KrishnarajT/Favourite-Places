@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { View, StyleSheet, ScrollView, Image } from "react-native";
 import CText from "../ui/CText";
 import PrimaryButton from "../ui/PrimaryButton";
-import { fetchPlaceDetails } from "../../utilities/database";
+import { deletePlace, fetchPlaceDetails } from "../../utilities/database";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
+import { Alert } from "react-native";
 
 const PlaceDetails = (props) => {
 	const placeId = props.route.params.placeId;
-	console.log("you are now in place detail realm", placeId);
 	const focused = useIsFocused();
 	const navigation = useNavigation();
 	const [selectedPlace, setSelectedPlace] = useState(null);
@@ -23,7 +23,6 @@ const PlaceDetails = (props) => {
 					props.navigation.setOptions({
 						title: place.title,
 					});
-					console.log("place details", place);
 				})
 				.catch((err) => {
 					console.log("error in fetching place details", err);
@@ -33,11 +32,28 @@ const PlaceDetails = (props) => {
 	}, [placeId, focused]);
 
 	function showMapHandler() {
-		console.log("showMapHandler");
 		navigation.navigate("Map", {
 			readonly: true,
 			initialLocation: selectedPlace.location,
 		});
+	}
+
+	function deleteLocationHandler() {
+		// show an alert
+		Alert.alert(
+			"Are you sure?",
+			"Do you really want to delete this place?",
+			[
+				{ text: "No", style: "default" },
+				{
+					text: "Yes",
+					style: "destructive",
+					onPress: () => {
+						deletePlace(placeId), props.navigation.goBack();
+					},
+				},
+			]
+		);
 	}
 
 	if (!selectedPlace) {
@@ -67,6 +83,9 @@ const PlaceDetails = (props) => {
 			</View>
 			<PrimaryButton title="Show on Map" onPress={showMapHandler}>
 				Show on Map
+			</PrimaryButton>
+			<PrimaryButton title="Show on Map" onPress={deleteLocationHandler}>
+				Delete Location
 			</PrimaryButton>
 		</View>
 	);

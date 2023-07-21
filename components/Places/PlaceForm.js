@@ -20,10 +20,6 @@ const PlaceForm = ({ onCreatePlace }) => {
 	const themeData = useContext(ThemeContext);
 
 	function savePlaceHandler() {
-		console.log("savePlaceHandler");
-		console.log(enteredTitle);
-		console.log(pickedImage);
-		console.log(pickedLocation);
 		if (!enteredTitle || !pickedImage || !pickedLocation) {
 			Alert.alert("Insufficient Data", "Please fill all the fields", [
 				{ text: "Okay" },

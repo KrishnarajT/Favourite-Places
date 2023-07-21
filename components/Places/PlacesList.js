@@ -10,7 +10,6 @@ const PlacesList = ({ places }) => {
 	const navigation = useNavigation();
 
 	if (places.length === 0) {
-		console.log("No places found");
 		return (
 			<View>
 				<CText className="text-xl text-center p-4">
@@ -21,7 +20,6 @@ const PlacesList = ({ places }) => {
 	}
 
 	const onSelectHandler = (id) => {
-		console.log("onSelect", id);
 		// go to the place detail screen
 		navigation.navigate("PlaceDetails", { placeId: id });
 	};

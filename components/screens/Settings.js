@@ -1,12 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, StyleSheet, Text, Switch } from "react-native";
 import { useTheme } from "@react-navigation/native";
 import { useState, useContext } from "react";
 import { ThemeContext } from "../../context/ThemeContext";
 import CText from "../ui/CText";
+import { useColorScheme } from "react-native";
 
 const Settings = () => {
 	const { AppTheme, toggleTheme } = useContext(ThemeContext);
+	const theme = useTheme();
+	const scheme = useColorScheme();
+	console.log("theme", theme);
+	useEffect(() => {
+		toggleTheme();
+		console.log("settings, scheme", scheme);
+	}, [scheme]);
 
 	const toggleSwitch = () => {
 		toggleTheme();

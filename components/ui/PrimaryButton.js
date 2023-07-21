@@ -5,7 +5,6 @@ import { Ionicons } from "@expo/vector-icons";
 
 const PrimaryButton = (props) => {
 	const pressHandler = () => {
-		console.log("PrimaryButton pressed");
 		props.onPress();
 	};
 	const themeData = useContext(ThemeContext);

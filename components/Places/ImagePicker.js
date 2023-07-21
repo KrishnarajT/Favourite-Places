@@ -14,7 +14,6 @@ const ImagePicker = ({ onImageTaken }) => {
 	const focused = useIsFocused();
 	const [pickedImage, setPickedImage] = useState();
 	useEffect(() => {
-		console.log("ImagePicker useEffect");
 		setPickedImage(null);
 	}, [focused]);
 
@@ -47,7 +46,6 @@ const ImagePicker = ({ onImageTaken }) => {
 			aspect: [16, 9],
 			quality: 0.5,
 		});
-		console.log(image);
 		setPickedImage(image.uri);
 		onImageTaken(image.uri);
 	};

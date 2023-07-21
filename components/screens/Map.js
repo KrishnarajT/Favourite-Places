@@ -17,7 +17,6 @@ import { useIsFocused } from "@react-navigation/native";
 
 const Map = (props) => {
 	const isfocused = useIsFocused();
-	console.log(props.navigation, isfocused);
 	const initialLocation = props.route.params
 		? props.route.params.initialLocation
 		: null;
@@ -26,24 +25,31 @@ const Map = (props) => {
 	);
 
 	useLayoutEffect(() => {
-		console.log("Map useLayoutEffect");
 		async function getLocation() {
 			const location = await getCurrentPositionAsync({
 				accuracy: 6,
 			});
-			console.log(location);
 			setSelectedLocation({
 				lat: location.coords.latitude,
 				lon: location.coords.longitude,
 			});
 		}
-		console.log("getting location");
 		getLocation();
 	}, [isfocused]);
 
 	useLayoutEffect(() => {
-		if (initialLocation) return;
-		console.log(initialLocation);
+		if (!props.route.params) {
+			props.navigation.setOptions({
+				headerRight: null,
+			});
+			return;
+		}
+		if (props.route.params.readonly) {
+			props.navigation.setOptions({
+				headerRight: null,
+			});
+			return;
+		}
 		props.navigation.setOptions({
 			headerRight: () => (
 				<PrimaryButton
@@ -57,7 +63,6 @@ const Map = (props) => {
 	}, [props.navigation, selectedLocation, initialLocation]);
 
 	const savePickLocationHandler = useCallback(() => {
-		console.log(selectedLocation);
 		if (!selectedLocation) {
 			Alert.alert(
 				"No Location Selected",
@@ -90,10 +95,8 @@ const Map = (props) => {
 		if (initialLocation) {
 			return;
 		}
-		// console.log(event);
 		const lat = event.nativeEvent.coordinate.latitude;
 		const lon = event.nativeEvent.coordinate.longitude;
-		console.log(lat, lon);
 		setSelectedLocation({
 			lat: lat,
 			lon: lon,

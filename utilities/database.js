@@ -67,7 +67,6 @@ export const fetchPlaces = () => {
 							)
 						);
 					}
-					console.log("here are the places bro", places);
 					resolve(places);
 				},
 				(_, err) => {
@@ -80,7 +79,6 @@ export const fetchPlaces = () => {
 };
 
 export const fetchPlaceDetails = (id) => {
-	console.log("fetchPlaceDetails", id);
 	const promise = new Promise((resolve, reject) => {
 		db.transaction((tx) => {
 			tx.executeSql(
@@ -100,8 +98,25 @@ export const fetchPlaceDetails = (id) => {
 						},
 						result.rows.item(0).id
 					);
-					console.log("this is what i got", dbPlace);
 					resolve(dbPlace);
+				},
+				(_, err) => {
+					reject(err);
+				}
+			);
+		});
+	});
+	return promise;
+};
+
+export const deletePlace = (id) => {
+	const promise = new Promise((resolve, reject) => {
+		db.transaction((tx) => {
+			tx.executeSql(
+				"DELETE FROM places WHERE id = ?",
+				[id],
+				(_, result) => {
+					resolve(result);
 				},
 				(_, err) => {
 					reject(err);
