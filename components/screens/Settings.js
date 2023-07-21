@@ -4,25 +4,21 @@ import { useTheme } from "@react-navigation/native";
 import { useState, useContext } from "react";
 import { ThemeContext } from "../../context/ThemeContext";
 import CText from "../ui/CText";
-import { useColorScheme } from "react-native";
+import SelectCountryScreen from "../ui/DropDown";
 
 const Settings = () => {
 	const { AppTheme, toggleTheme } = useContext(ThemeContext);
 	const theme = useTheme();
-	const scheme = useColorScheme();
-	console.log("theme", theme);
-	useEffect(() => {
-		toggleTheme();
-		console.log("settings, scheme", scheme);
-	}, [scheme]);
+	console.log("theme from settings", theme);
 
-	const toggleSwitch = () => {
-		toggleTheme();
-		console.log("Changed Theme", AppTheme);
+	const onDropDownChange = (mode) => {
+		console.log("mode", mode);
+		toggleTheme(mode);
 	};
+
 	return (
 		<View
-			className="flex flex-row justify-between p-4 px-6 rounded-full shadow-md shadow-slate-800 m-4 align-middle items-center"
+			className="flex flex-row justify-between px-2 rounded-full shadow-md shadow-slate-800 m-4 align-middle items-center"
 			style={{
 				backgroundColor: AppTheme.colors.card,
 				borderColor: AppTheme.colors.border,
@@ -36,14 +32,7 @@ const Settings = () => {
 			>
 				Change Theme
 			</CText>
-			<Switch
-				trackColor={{ false: "#767577", true: "#81b0ff" }}
-				thumbColor={AppTheme.dark ? "#f5dd4b" : "#f4f3f4"}
-				ios_backgroundColor="#3e3e3e"
-				onValueChange={toggleSwitch}
-				value={AppTheme.dark}
-				className=""
-			/>
+			<SelectCountryScreen onChange={onDropDownChange} />
 		</View>
 	);
 };

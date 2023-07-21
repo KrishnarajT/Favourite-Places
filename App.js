@@ -95,16 +95,28 @@ export default function App() {
 	SplashScreen.hideAsync();
 
 	// begin code from here.
-	const toggleTheme = () => {
-		setAppTheme((AppTheme) => {
-			if (AppTheme.dark) {
-				// toggleDarkMode("suBanavu.json", false);
-				return MyLightTheme;
-			} else {
-				// toggleDarkMode("suBanavu.json", true);
-				return MyDarkTheme;
-			}
-		});
+	const toggleTheme = (mode) => {
+		if (mode === "Light") {
+			setAppTheme(MyLightTheme);
+			return;
+		}
+		if (mode === "Dark") {
+			setAppTheme(MyDarkTheme);
+			return;
+		}
+		if (mode === "System") {
+			setAppTheme(scheme === "dark" ? MyDarkTheme : MyLightTheme);
+			return;
+		}
+		// setAppTheme((AppTheme) => {
+		// 	if (AppTheme.dark) {
+		// 		// toggleDarkMode("suBanavu.json", false);
+		// 		return MyLightTheme;
+		// 	} else {
+		// 		// toggleDarkMode("suBanavu.json", true);
+		// 		return MyDarkTheme;
+		// 	}
+		// });
 	};
 	const themedata = {
 		AppTheme: AppTheme,
