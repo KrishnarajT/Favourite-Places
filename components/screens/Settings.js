@@ -9,10 +9,8 @@ import SelectCountryScreen from "../ui/DropDown";
 const Settings = () => {
   const { AppTheme, toggleTheme } = useContext(ThemeContext);
   const theme = useTheme();
-  console.log("theme from settings", theme);
 
   const onDropDownChange = (mode) => {
-    console.log("mode", mode);
     toggleTheme(mode);
   };
 
